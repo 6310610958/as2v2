@@ -11,44 +11,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.quizgame.QuizQuestion
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun QuizScreen(quizViewModel: QuizViewModel , onPlayAgain: () -> Unit, onExit: () -> Unit) {
-
+fun QuizScreen(
+    quizViewModel: QuizViewModel,
+    restartquiz: () -> Unit,
+    onExit: () -> Unit
+) {
     val uiState by quizViewModel.uiState.collectAsState()
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Quiz App") }
-            )
-        },
+        topBar = { TopAppBar(title = { Text("CN333 ASIGNMENT2") }) },
         content = {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-
-                ) {
-                when (uiState.quizNumber) {
-                    10 -> {
-                        SummaryScreen(
-                            score = uiState.score,
-                            onPlayAgain = onPlayAgain,
-                            onExit = onExit
-                        )
-                    }
-                    else -> {
-                        QuestionScreen(
-                            question = uiState.currentQuestion,
-                            options = uiState.options,
-                            score = uiState.score,
-                            quizNum = uiState.quizNumber,
-                            answer = uiState.options,
-                            SelectedAnswer = quizViewModel::answerQuestion
-                        )
-                    }
+            Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                if (uiState.quizNumber == 10) {
+                    FinalScreen(score = uiState.score, restartquiz = restartquiz, onExit = onExit)
+                } else {
+                    QuestionScreen(
+                        question = uiState.currentQuestion,
+                        options = uiState.options,
+                        score = uiState.score,
+                        quizNum = uiState.quizNumber,
+                        correctAnswer = uiState.options,
+                        SelectedAnswer = quizViewModel::answerQuestion
+                    )
                 }
             }
         }
@@ -56,76 +46,80 @@ fun QuizScreen(quizViewModel: QuizViewModel , onPlayAgain: () -> Unit, onExit: (
 }
 
 @Composable
-fun QuestionScreen(question: QuizQuestion, options: List<String>, score: Int, quizNum: Int, answer: List<String>, SelectedAnswer: (String) -> Unit)  {
-
+fun QuestionScreen(
+    question: QuizQuestion,
+    options: List<String>,
+    score: Int,
+    quizNum: Int,
+    correctAnswer: List<String>,
+    SelectedAnswer: (String) -> Unit
+) {
     Column(
-        modifier = Modifier.padding(16.dp)
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+        modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
-
-        ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Text(text = "$quizNum/10")
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.End),
-                text = "score: $score")
-        }
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(text = question.question)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        options.forEach { choice ->
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
-                onClick = { SelectedAnswer(choice) }
-            ) {
-                Text(text = choice)
-            }
-        }
-    }
-}
-
-@Composable
-fun SummaryScreen(score: Int, onPlayAgain: () -> Unit, onExit: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Your score is $score out of 10",
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            text = "Question No. $quizNum",
+            fontSize = 25.sp
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = onPlayAgain,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Play Again")
+        Text(
+            text = question.question,
+            modifier = Modifier.padding(bottom = 15.dp),
+            fontSize = 22.sp)
+
+        options.forEach { choice ->
+            Button(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp),
+                onClick = { SelectedAnswer(choice) }
+            ) {
+                Text(
+                    text = choice,
+                    fontSize = 20.sp)
+            }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Your score: $score out of 10",
+            fontSize = 24.sp)
+    }
 
-        Button(
-            onClick = onExit,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Exit")
+}
+
+
+@Composable
+fun FinalScreen(score: Int, restartquiz: () -> Unit, onExit: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(100.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Your score is"
+            , modifier = Modifier.align(Alignment.CenterHorizontally),
+            fontSize = 26.sp
+        )
+
+        Text(text = " $score out of 10",
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            fontSize = 26.sp
+        )
+
+        Button(onClick = restartquiz,
+            modifier = Modifier.width(IntrinsicSize.Max)) {
+            Text(
+                text = "RESTART",
+                fontSize = 22.sp
+            )
+        }
+
+        Button(onClick = onExit,
+            modifier = Modifier.width(IntrinsicSize.Max)) {
+            Text(
+                text = "QUIT A QUIZ",
+                fontSize = 22.sp)
         }
     }
 }
+

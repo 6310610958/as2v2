@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     QuizScreen(
                         quizViewModel = quizViewModel,
-                        onPlayAgain = quizViewModel::resetQuiz,
+                        restartquiz = quizViewModel::resetQuiz,
                         onExit = { finish() }
                     )
                 }

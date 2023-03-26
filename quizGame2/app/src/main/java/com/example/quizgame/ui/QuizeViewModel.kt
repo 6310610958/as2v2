@@ -21,28 +21,17 @@ class QuizViewModel : ViewModel() {
     private var quizNumber = 0
     private var score = 0
 
-    private val _uiState = MutableStateFlow(QuizUiState(
-        currentQuestion = questions[quizNumber],
-        options = questions[quizNumber].options.shuffled(),
-        score = score,
-        quizNumber = quizNumber + 1
-    ))
+    private val _uiState = MutableStateFlow(initialUiState())
 
     val uiState: StateFlow<QuizUiState> = _uiState.asStateFlow()
 
-    init {
-        updateUiState()
-    }
-
     fun answerQuestion(answer: String) {
-        if (answer == questions[quizNumber].correctAnswer) {
+        if (isCorrectAnswer(answer)) {
             score++
         }
 
-        quizNumber++
-
-        if (quizNumber < questions.size) {
-            updateUiState()
+        if (hasMoreQuestions()) {
+            goToNextQuestion()
         } else {
             endQuiz()
         }
@@ -56,13 +45,21 @@ class QuizViewModel : ViewModel() {
         updateUiState()
     }
 
-    private fun updateUiState() {
-        _uiState.value = QuizUiState(
-            currentQuestion = questions[quizNumber],
-            options = questions[quizNumber].options.shuffled(),
-            score = score,
-            quizNumber = quizNumber + 1
-        )
+    private fun isCorrectAnswer(answer: String): Boolean {
+        return answer == currentQuestion().correctAnswer
+    }
+
+    private fun hasMoreQuestions(): Boolean {
+        return quizNumber < questions.size
+    }
+
+    private fun currentQuestion(): QuizQuestion {
+        return questions[quizNumber]
+    }
+
+    private fun goToNextQuestion() {
+        quizNumber++
+        updateUiState()
     }
 
     private fun endQuiz() {
@@ -74,4 +71,16 @@ class QuizViewModel : ViewModel() {
         )
     }
 
+    private fun initialUiState(): QuizUiState {
+        return QuizUiState(
+            currentQuestion = currentQuestion(),
+            options = currentQuestion().options.shuffled(),
+            score = score,
+            quizNumber = quizNumber + 1
+        )
+    }
+
+    private fun updateUiState() {
+        _uiState.value = initialUiState()
+    }
 }

@@ -9,7 +9,6 @@
 # สมาชิกในกลุ่ม
 #### Variya Kittiwattanachok 6310610958
 #### Woraphat Wannaphong 6310611055
-#### Pavisa Sirirojvorakul 6310620064
 
 # ขั้นตอนการใช้งาน
 1. git clone https://github.com/6310610958/CN333as2.git

@@ -22,14 +22,14 @@ LinkVideo=> [Click_Here](https://youtu.be/9JwHa6yivoc)
 # ตัวอย่าง Display Android App
 เมื่อเริ่มRunขึ้นมา
 
-<img src = "StartGame.png" alt ="Start Game" width = "25%" Height ="25%">
+<img src = "pics/StartGame.png" alt ="Start Game" width = "25%" Height ="25%">
 
 เมื่อทำการเลือกคำตอบที่ถูกต้อง จะได้หนึ่งคะแนน และไปยังข้อถัดไป
 
-<img src = "CorrectAns.png" alt ="CorrectAns" width = "25%" Height ="25%">
+<img src = "pics/CorrectAns.png" alt ="CorrectAns" width = "25%" Height ="25%">
 
 เมื่อทำการเล่นจนครบ 10 คำถาม โปรแกรมจะสรุปคะแนน และแสดงตัวเลือกให้เล่นใหม่ หรือออกจากโปรแกรม
 
-<img src = "Summary.png" alt ="Summary" width = "25%" Height ="25%">
+<img src = "pics/Summary.png" alt ="Summary" width = "25%" Height ="25%">
 
 

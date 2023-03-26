@@ -28,7 +28,7 @@ fun QuizScreen(
         topBar = { TopAppBar(title = { Text("CN333 ASIGNMENT2") }) },
         content = {
             Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                if (uiState.quizNumber == 10) {
+                if (uiState.quizNumber == 11) {
                     FinalScreen(score = uiState.score, restartquiz = restartquiz, onExit = onExit)
                 } else {
                     QuestionScreen(

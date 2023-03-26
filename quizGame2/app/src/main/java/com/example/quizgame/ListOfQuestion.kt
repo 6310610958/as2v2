@@ -58,5 +58,10 @@ class ListOfQuestion {
             listOf("Amazon", "Nile", "Chao Phraya", "Bang Pakong"),
             "Nile"
         ),
+        QuizQuestion(
+            "What is the currency of thailand",
+            listOf("bath", "baht", "bard", "bat"),
+            "baht"
+        ),
     )
 }

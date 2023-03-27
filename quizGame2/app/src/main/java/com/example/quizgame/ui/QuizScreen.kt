@@ -22,6 +22,7 @@ fun QuizScreen(
     restartquiz: () -> Unit,
     quitquiz: () -> Unit
 ) {
+
     val uiState by quizViewModel.uiState.collectAsState()
 
     Scaffold(

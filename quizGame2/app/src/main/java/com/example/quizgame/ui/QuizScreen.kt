@@ -20,16 +20,19 @@ import com.example.quizgame.QuizQuestion
 fun QuizScreen(
     quizViewModel: QuizViewModel,
     restartquiz: () -> Unit,
-    onExit: () -> Unit
+    quitquiz: () -> Unit
 ) {
     val uiState by quizViewModel.uiState.collectAsState()
 
     Scaffold(
+
         topBar = { TopAppBar(title = { Text("CN333 ASIGNMENT2") }) },
         content = {
             Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+
                 if (uiState.quizNumber == 11) {
-                    FinalScreen(score = uiState.score, restartquiz = restartquiz, onExit = onExit)
+                    FinalScreen(score = uiState.score, restartquiz = restartquiz, quitquiz = quitquiz)
+
                 } else {
                     QuestionScreen(
                         question = uiState.currentQuestion,
@@ -38,6 +41,7 @@ fun QuizScreen(
                         quizNum = uiState.quizNumber,
                         correctAnswer = uiState.options,
                         SelectedAnswer = quizViewModel::answerQuestion
+
                     )
                 }
             }
@@ -47,17 +51,19 @@ fun QuizScreen(
 
 @Composable
 fun QuestionScreen(
-    question: QuizQuestion,
-    options: List<String>,
     score: Int,
     quizNum: Int,
+    question: QuizQuestion,
+    options: List<String>,
     correctAnswer: List<String>,
     SelectedAnswer: (String) -> Unit
 ) {
+
     Column(
         modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
         Text(
             text = "Question No. $quizNum",
@@ -90,11 +96,12 @@ fun QuestionScreen(
 
 
 @Composable
-fun FinalScreen(score: Int, restartquiz: () -> Unit, onExit: () -> Unit) {
+fun FinalScreen(score: Int, restartquiz: () -> Unit, quitquiz: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize().padding(100.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp),
         horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
         Text(text = "Your score is"
             , modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -114,7 +121,7 @@ fun FinalScreen(score: Int, restartquiz: () -> Unit, onExit: () -> Unit) {
             )
         }
 
-        Button(onClick = onExit,
+        Button(onClick = quitquiz,
             modifier = Modifier.width(IntrinsicSize.Max)) {
             Text(
                 text = "QUIT A QUIZ",

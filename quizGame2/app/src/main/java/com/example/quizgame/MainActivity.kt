@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     QuizScreen(
                         quizViewModel = quizViewModel,
                         restartquiz = quizViewModel::resetQuiz,
-                        onExit = { finish() }
+                        quitquiz = { finish() }
                     )
                 }
             }

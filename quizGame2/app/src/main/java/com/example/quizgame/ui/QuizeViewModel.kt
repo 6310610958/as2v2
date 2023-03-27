@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 data class QuizUiState(
-    val currentQuestion: QuizQuestion,
-    val options: List<String>,
     val score: Int,
-    val quizNumber: Int
+    val quizNumber: Int,
+    val options: List<String>,
+    val currentQuestion: QuizQuestion,
 )
 
 class QuizViewModel : ViewModel() {
@@ -20,10 +20,17 @@ class QuizViewModel : ViewModel() {
     private var questions = quizData.questions.shuffled()
     private var quizNumber = 0
     private var score = 0
-
     private val _uiState = MutableStateFlow(initialUiState())
-
     val uiState: StateFlow<QuizUiState> = _uiState.asStateFlow()
+
+
+    fun resetQuiz() {
+        questions = quizData.questions.shuffled()
+        quizNumber = 0
+        score = 0
+
+        updateUiState()
+    }
 
     fun answerQuestion(answer: String) {
         if (isCorrectAnswer(answer)) {
@@ -35,14 +42,6 @@ class QuizViewModel : ViewModel() {
         } else {
             endQuiz()
         }
-    }
-
-    fun resetQuiz() {
-        questions = quizData.questions.shuffled()
-        quizNumber = 0
-        score = 0
-
-        updateUiState()
     }
 
     private fun isCorrectAnswer(answer: String): Boolean {
